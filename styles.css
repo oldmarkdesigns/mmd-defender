@@ -865,6 +865,264 @@ body {
     animation-delay: 0.4s;
 }
 
+/* Connections Page Styles */
+#connections.page {
+    overflow-y: auto;
+    height: 100vh;
+}
+
+#connections .page-header {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(135deg, #191A17 0%, #252521 100%);
+    z-index: 100;
+    margin: 0;
+    padding: 30px 40px 20px 40px;
+    border-bottom: 1px solid #404040;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.connections-content {
+    padding: 30px 40px;
+    margin-top: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideInUp 0.6s ease forwards;
+    animation-delay: 0.4s;
+}
+
+.health-integration-card {
+    background-color: rgba(46, 46, 46, 0.6);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #404040;
+    margin-bottom: 30px;
+}
+
+.health-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.health-logo {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.health-logo .apple-logo {
+    width: 48px;
+    height: 48px;
+    color: #CAD784;
+}
+
+.health-info h3 {
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.health-status {
+    font-size: 14px;
+    color: #CAD784;
+    margin-bottom: 4px;
+}
+
+.health-description {
+    font-size: 14px;
+    color: #cccccc;
+}
+
+.sync-status {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sync-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #CAD784;
+    animation: pulse 2s infinite;
+}
+
+.sync-indicator.active {
+    background-color: #CAD784;
+}
+
+.sync-text {
+    font-size: 12px;
+    color: #CAD784;
+    font-weight: 500;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.devices-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.device-card {
+    background-color: rgba(46, 46, 46, 0.6);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #404040;
+    transition: all 0.3s ease;
+}
+
+
+
+.device-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.device-icon {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(202, 215, 132, 0.1);
+    border-radius: 8px;
+}
+
+.apple-logo {
+    width: 24px;
+    height: 24px;
+    color: #CAD784;
+}
+
+.device-info h4 {
+    font-size: 16px;
+    color: #ffffff;
+    margin-bottom: 4px;
+}
+
+.device-status {
+    font-size: 12px;
+    color: #999999;
+}
+
+.connection-status {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-left: auto;
+}
+
+.connection-status.connected {
+    background-color: #CAD784;
+    box-shadow: 0 0 10px rgba(202, 215, 132, 0.5);
+}
+
+.device-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.metric-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.metric-label {
+    font-size: 12px;
+    color: #999999;
+}
+
+.metric-value {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.metric-value.ready {
+    color: #CAD784;
+}
+
+.data-source {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    background-color: rgba(202, 215, 132, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(202, 215, 132, 0.2);
+}
+
+.source-icon {
+    width: 16px;
+    height: 16px;
+    color: #CAD784;
+}
+
+.source-text {
+    font-size: 12px;
+    color: #CAD784;
+    font-weight: 500;
+}
+
+.data-summary {
+    margin-top: 30px;
+}
+
+.summary-card {
+    background-color: rgba(46, 46, 46, 0.6);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #404040;
+}
+
+.summary-card h3 {
+    font-size: 18px;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 24px;
+    font-weight: 600;
+    color: #CAD784;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #999999;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
     .dashboard-content {
@@ -906,8 +1164,19 @@ body {
     
     .dashboard-content,
     .profile-content,
-    .chat-container {
+    .chat-container,
+    .connections-content {
         padding: 20px;
+    }
+    
+    .devices-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .summary-stats {
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
     
     .profile-content {
