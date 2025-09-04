@@ -40,12 +40,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     filterButtons.forEach(button => {
         button.addEventListener('click', function() {
+            const isCurrentlyActive = this.classList.contains('active');
+            
+            if (isCurrentlyActive) {
+                // If already active, deactivate it
+                this.classList.remove('active');
+                showAllMembers();
+            } else {
             // Remove active class from all buttons
             filterButtons.forEach(btn => btn.classList.remove('active'));
             // Add active class to clicked button
             this.classList.add('active');
             // Apply filter
             applyFilter(this.textContent.toLowerCase());
+            }
         });
     });
 });
@@ -221,9 +229,10 @@ function updateProfileContent(memberId) {
         console.error('Role element not found!');
     }
     
+    // Keep avatar as "JS" (Jesper's initials) regardless of member
     if (avatarElement) {
-        avatarElement.textContent = member.name.split(' ').map(n => n[0]).join('');
-        console.log('Updated avatar to:', member.name.split(' ').map(n => n[0]).join(''));
+        avatarElement.textContent = 'JS';
+        console.log('Avatar kept as JS (Jesper\'s account)');
     } else {
         console.error('Avatar element not found!');
     }
@@ -428,6 +437,15 @@ function sendMessage() {
 function filterMembers() {
     const searchTerm = document.querySelector('.search-input').value.toLowerCase();
     const members = document.querySelectorAll('.member');
+    const memberList = document.querySelector('.member-list');
+    
+    // Remove existing "no members" message
+    const existingMessage = memberList.querySelector('.no-members-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
+    let visibleCount = 0;
     
     members.forEach(member => {
         const name = member.querySelector('.member-name').textContent.toLowerCase();
@@ -435,15 +453,50 @@ function filterMembers() {
         
         if (name.includes(searchTerm) || role.includes(searchTerm)) {
             member.style.display = 'flex';
+            visibleCount++;
         } else {
             member.style.display = 'none';
         }
+    });
+    
+    // Show "no members found" message if no members match the search
+    if (visibleCount === 0 && searchTerm !== '') {
+        const noMembersMessage = document.createElement('div');
+        noMembersMessage.className = 'no-members-message';
+        noMembersMessage.textContent = 'No members found matching your search';
+        memberList.appendChild(noMembersMessage);
+    }
+}
+
+// Function to show all members (clear filter)
+function showAllMembers() {
+    const members = document.querySelectorAll('.member');
+    const memberList = document.querySelector('.member-list');
+    
+    // Remove existing "no members" message
+    const existingMessage = memberList.querySelector('.no-members-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
+    // Show all members
+    members.forEach(member => {
+        member.style.display = 'flex';
     });
 }
 
 // Function to apply filter buttons
 function applyFilter(filterType) {
     const members = document.querySelectorAll('.member');
+    const memberList = document.querySelector('.member-list');
+    
+    // Remove existing "no members" message
+    const existingMessage = memberList.querySelector('.no-members-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
+    let visibleCount = 0;
     
     members.forEach(member => {
         const readiness = parseInt(member.querySelector('.readiness').textContent);
@@ -473,7 +526,16 @@ function applyFilter(filterType) {
         }
         
         member.style.display = show ? 'flex' : 'none';
+        if (show) visibleCount++;
     });
+    
+    // Show "no members found" message if no members match the filter
+    if (visibleCount === 0) {
+        const noMembersMessage = document.createElement('div');
+        noMembersMessage.className = 'no-members-message';
+        noMembersMessage.textContent = 'No members found for this filter';
+        memberList.appendChild(noMembersMessage);
+    }
 }
 
 // Add some dynamic functionality to progress bars
@@ -571,6 +633,114 @@ function showPageWithTransition(pageName) {
                 targetPage.style.opacity = '1';
             }, 50);
         }, 300);
+    }
+}
+
+// Notification dropdown functionality
+function toggleNotifications() {
+    const dropdown = document.getElementById('notification-dropdown');
+    if (dropdown) {
+        dropdown.classList.toggle('active');
+    }
+}
+
+// Close notifications when clicking outside
+document.addEventListener('click', function(e) {
+    const dropdown = document.getElementById('notification-dropdown');
+    const bells = document.querySelectorAll('.notification-bell');
+    
+    if (dropdown && !dropdown.contains(e.target)) {
+        // Check if click is on any notification bell
+        let clickedOnBell = false;
+        bells.forEach(bell => {
+            if (bell.contains(e.target)) {
+                clickedOnBell = true;
+            }
+        });
+        
+        if (!clickedOnBell) {
+            dropdown.classList.remove('active');
+        }
+    }
+});
+
+// Profile dropdown functionality
+function toggleProfileDropdown() {
+    const dropdown = document.getElementById('profile-dropdown');
+    const notificationDropdown = document.getElementById('notification-dropdown');
+    
+    // Close notification dropdown if open
+    if (notificationDropdown) {
+        notificationDropdown.classList.remove('active');
+    }
+    
+    if (dropdown) {
+        dropdown.classList.toggle('active');
+    }
+}
+
+// Profile section navigation
+function showProfileSection(sectionName) {
+    // For now, just show an alert - you can expand this to show different content
+    const sectionTitles = {
+        'personal': 'Personal Information',
+        'preferences': 'Preferences',
+        'security': 'Security & Privacy',
+        'notifications': 'Notifications',
+        'account': 'Account Settings'
+    };
+    
+    alert(`Opening ${sectionTitles[sectionName]}...`);
+}
+
+// Close profile dropdown when clicking outside
+document.addEventListener('click', function(e) {
+    const profileDropdown = document.getElementById('profile-dropdown');
+    const avatars = document.querySelectorAll('.user-avatar');
+    
+    if (profileDropdown && !profileDropdown.contains(e.target)) {
+        // Check if click is on any avatar
+        let clickedOnAvatar = false;
+        avatars.forEach(avatar => {
+            if (avatar.contains(e.target)) {
+                clickedOnAvatar = true;
+            }
+        });
+        
+        if (!clickedOnAvatar) {
+            profileDropdown.classList.remove('active');
+        }
+    }
+});
+
+// Profile tab functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const profileTabs = document.querySelectorAll('.profile-tab');
+    const profileTabContents = document.querySelectorAll('.profile-tab-content');
+
+    profileTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const targetTab = this.getAttribute('data-tab');
+
+            // Remove active class from all tabs and contents
+            profileTabs.forEach(t => t.classList.remove('active'));
+            profileTabContents.forEach(content => content.classList.remove('active'));
+
+            // Add active class to clicked tab and corresponding content
+            this.classList.add('active');
+            const targetContent = document.getElementById(targetTab + '-tab');
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+        });
+    });
+});
+
+// Logout function
+function logout() {
+    if (confirm('Are you sure you want to sign out?')) {
+        alert('Logout functionality would be implemented here.');
+        // In a real application, this would redirect to login page
     }
 }
 
