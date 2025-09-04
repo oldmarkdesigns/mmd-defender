@@ -85,7 +85,7 @@ function showProfile(memberId) {
         const profilePage = document.getElementById('profile');
         if (profilePage && profilePage.classList.contains('active')) {
             console.log('Profile page is now active, updating content for:', memberId);
-            updateProfileContent(memberId);
+    updateProfileContent(memberId);
         } else {
             console.log('Profile page not yet active, waiting...');
             setTimeout(waitForProfilePage, 50);
@@ -284,33 +284,33 @@ function updateProfileContent(memberId) {
     // Update operational details
     const operationalDetails = profilePage.querySelectorAll('.operational-details-card .detail-item .value');
     if (operationalDetails.length > 0) {
-        operationalDetails[0].textContent = member.rank;
-        operationalDetails[1].textContent = member.readiness >= 70 ? 'Ready' : member.readiness >= 40 ? 'Limited' : 'Not Ready';
-        operationalDetails[1].className = 'value ' + (member.readiness >= 70 ? 'ready' : member.readiness >= 40 ? 'warning' : 'urgent');
+    operationalDetails[0].textContent = member.rank;
+    operationalDetails[1].textContent = member.readiness >= 70 ? 'Ready' : member.readiness >= 40 ? 'Limited' : 'Not Ready';
+    operationalDetails[1].className = 'value ' + (member.readiness >= 70 ? 'ready' : member.readiness >= 40 ? 'warning' : 'urgent');
         console.log('Updated operational details');
     }
     
     // Update tactical readiness
     const tacticalDetails = profilePage.querySelectorAll('.tactical-readiness-card .detail-item .value');
     if (tacticalDetails.length > 0) {
-        tacticalDetails[0].textContent = member.weaponProficiency;
-        tacticalDetails[1].textContent = member.combatExperience;
-        tacticalDetails[2].textContent = member.specialization;
-        tacticalDetails[3].textContent = member.lastMission;
-        tacticalDetails[4].textContent = member.clearanceLevel;
+    tacticalDetails[0].textContent = member.weaponProficiency;
+    tacticalDetails[1].textContent = member.combatExperience;
+    tacticalDetails[2].textContent = member.specialization;
+    tacticalDetails[3].textContent = member.lastMission;
+    tacticalDetails[4].textContent = member.clearanceLevel;
         console.log('Updated tactical readiness');
     }
     
     // Update medical & physical
     const medicalDetails = profilePage.querySelectorAll('.medical-physical-card .detail-item .value');
     if (medicalDetails.length > 0) {
-        medicalDetails[0].textContent = member.bloodType;
-        medicalDetails[1].textContent = member.allergies;
-        medicalDetails[2].textContent = member.lastMedical;
-        medicalDetails[3].textContent = member.fitnessScore;
+    medicalDetails[0].textContent = member.bloodType;
+    medicalDetails[1].textContent = member.allergies;
+    medicalDetails[2].textContent = member.lastMedical;
+    medicalDetails[3].textContent = member.fitnessScore;
         
         // Rest Status with color
-        medicalDetails[4].textContent = member.restStatus;
+    medicalDetails[4].textContent = member.restStatus;
         if (member.restStatus === 'Well Rested') {
             medicalDetails[4].className = 'value ready';
         } else if (member.restStatus === 'Fatigued') {
@@ -324,11 +324,11 @@ function updateProfileContent(memberId) {
     // Update equipment & logistics with status colors
     const equipmentDetails = profilePage.querySelectorAll('.equipment-logistics-card .detail-item .value');
     if (equipmentDetails.length > 0) {
-        equipmentDetails[0].textContent = member.primaryWeapon;
-        equipmentDetails[1].textContent = member.secondaryWeapon;
+    equipmentDetails[0].textContent = member.primaryWeapon;
+    equipmentDetails[1].textContent = member.secondaryWeapon;
         
         // Body Armor with status color
-        equipmentDetails[2].textContent = member.bodyArmor;
+    equipmentDetails[2].textContent = member.bodyArmor;
         if (member.bodyArmor.includes('Needs') || member.bodyArmor.includes('Replacement')) {
             equipmentDetails[2].className = 'value urgent';
         } else {
@@ -336,14 +336,14 @@ function updateProfileContent(memberId) {
         }
         
         // Communications with status color
-        equipmentDetails[3].textContent = member.communications;
+    equipmentDetails[3].textContent = member.communications;
         if (member.communications === 'Limited') {
             equipmentDetails[3].className = 'value warning';
         } else {
             equipmentDetails[3].className = 'value ready';
         }
         
-        equipmentDetails[4].textContent = member.ammunition;
+    equipmentDetails[4].textContent = member.ammunition;
         console.log('Updated equipment & logistics');
     }
 }
@@ -576,7 +576,7 @@ function showPageWithTransition(pageName) {
 
 // Add keyboard shortcuts
 document.addEventListener('keydown', function(e) {
-    // Ctrl/Cmd + 1-4 for navigation
+    // Ctrl/Cmd + 1-6 for navigation
     if (e.ctrlKey || e.metaKey) {
         switch(e.key) {
             case '1':
@@ -595,11 +595,162 @@ document.addEventListener('keydown', function(e) {
                 e.preventDefault();
                 showPage('gpt');
                 break;
+            case '5':
+                e.preventDefault();
+                showPage('help');
+                break;
+            case '6':
+                e.preventDefault();
+                showPage('settings');
+                break;
         }
     }
     
     // Escape key to go back to dashboard
     if (e.key === 'Escape') {
         showDashboard();
+    }
+});
+
+// Records page tab functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const menuTabs = document.querySelectorAll('.menu-tab');
+    const tabContents = document.querySelectorAll('.records-tab-content');
+    
+    menuTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const targetTab = this.getAttribute('data-tab');
+            
+            // Remove active class from all tabs and contents
+            menuTabs.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding content
+            this.classList.add('active');
+            const targetContent = document.getElementById(targetTab + '-tab');
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+        });
+    });
+});
+
+// Settings page functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle switch functionality
+    const toggleInputs = document.querySelectorAll('.toggle-input');
+    
+    toggleInputs.forEach(toggle => {
+        toggle.addEventListener('change', function() {
+            // Toggle functionality - no text updates needed
+        });
+    });
+    
+    // Action buttons functionality
+    const actionButtons = document.querySelectorAll('.action-btn');
+    
+    actionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const buttonText = this.textContent;
+            
+            if (buttonText === 'Save Changes') {
+                // Simulate saving changes
+                this.textContent = 'Saving...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.textContent = 'Saved!';
+                    setTimeout(() => {
+                        this.textContent = 'Save Changes';
+                        this.disabled = false;
+                    }, 1500);
+                }, 1000);
+            } else if (buttonText === 'Reset to Defaults') {
+                // Reset all settings to defaults
+                if (confirm('Are you sure you want to reset all settings to their default values?')) {
+                    resetSettingsToDefaults();
+                }
+            } else if (buttonText === 'Clear All Data') {
+                // Clear all data confirmation
+                if (confirm('WARNING: This will permanently delete all data. Are you absolutely sure?')) {
+                    if (confirm('This action cannot be undone. Type "DELETE" to confirm.')) {
+                        alert('Data clearing functionality would be implemented here.');
+                    }
+                }
+            }
+        });
+    });
+    
+    // Function to reset settings to defaults
+    function resetSettingsToDefaults() {
+        // Reset theme
+        const themeSelect = document.querySelector('select[class*="setting-select"]');
+        if (themeSelect) themeSelect.value = 'dark';
+        
+        // Reset toggles
+        const toggles = document.querySelectorAll('.toggle-input');
+        toggles.forEach(toggle => {
+            if (toggle.id === 'notifications' || toggle.id === 'encryption' || 
+                toggle.id === 'audit-log' || toggle.id === 'emergency-alerts' || 
+                toggle.id === 'location-tracking' || toggle.id === 'health-monitoring' || 
+                toggle.id === 'cloud-sync') {
+                toggle.checked = true;
+            } else {
+                toggle.checked = false;
+            }
+            
+            // Toggle state updated - no text updates needed
+        });
+        
+        // Reset selects
+        const selects = document.querySelectorAll('.setting-select');
+        selects.forEach(select => {
+            if (select.querySelector('option[value="30"]')) {
+                select.value = '30'; // Session timeout
+            } else if (select.querySelector('option[value="60"]')) {
+                select.value = '60'; // Auto-sync frequency
+            } else if (select.querySelector('option[value="365"]')) {
+                select.value = '365'; // Data retention
+            } else if (select.querySelector('option[value="daily"]')) {
+                select.value = 'daily'; // Backup frequency
+            }
+        });
+        
+        alert('Settings have been reset to defaults.');
+    }
+});
+
+// Help page FAQ functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        
+        question.addEventListener('click', function() {
+            const isActive = item.classList.contains('active');
+            
+            // Close all other FAQ items
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                }
+            });
+            
+            // Toggle current item
+            if (isActive) {
+                item.classList.remove('active');
+            } else {
+                item.classList.add('active');
+            }
+        });
+    });
+    
+    // Support button functionality
+    const supportBtn = document.querySelector('.support-btn');
+    if (supportBtn) {
+        supportBtn.addEventListener('click', function() {
+            alert('Documentation would open in a new window or tab. This would typically link to a comprehensive user manual or help documentation.');
+        });
     }
 });
